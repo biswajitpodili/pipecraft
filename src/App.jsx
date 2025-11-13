@@ -1,13 +1,15 @@
 import { Route, Routes, useLocation } from "react-router";
 import Home from "./pages/Home";
-import NavBar from "./components/common/NavBar";
 import { BrowserRouter } from "react-router";
 import Aboutus from "./pages/Aboutus";
 import Services from "./pages/Services";
-import Footer from "./components/common/Footer";
 import Contactus from "./pages/ContactUs";
 import Projects from "./pages/Projects";
 import { useEffect } from "react";
+import Careers from "./pages/Careers";
+import Login from "./pages/auth/Login";
+import HomeLayout from "./layout/HomeLayout";
+import Dashboard from "./pages/dashboard";
 
 // Scroll to top component
 const ScrollToTop = () => {
@@ -26,15 +28,18 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<Aboutus />} />
-        <Route path="/service" element={<Services />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contactus />} />
-      </Routes> 
-      <Footer />
+        <Route path="/" element={<HomeLayout />}>
+          <Route index element={<Home />} />
+          <Route path="aboutus" element={<Aboutus />} />
+          <Route path="services" element={<Services />} />
+          <Route path="contactus" element={<Contactus />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="careers" element={<Careers />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
     </BrowserRouter>
   );
 }

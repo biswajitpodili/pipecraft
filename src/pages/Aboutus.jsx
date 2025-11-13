@@ -92,7 +92,7 @@ const Aboutus = () => {
             {/* <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
               Who We Are
             </h2> */}
-            <div className="bg-white p-8 rounded-lg shadow-lg">
+            <div className="bg-white p-8">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 With a strong presence in the chemical, oil & gas, skid, and
                 tank-farm industries, we bring precision, innovation, and
@@ -160,7 +160,7 @@ const Aboutus = () => {
               <h2 className="text-3xl font-bold text-gray-800 mb-6">
                 Our Expertise
               </h2>
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="bg-white p-6 ">
                 <ul className="space-y-3" >
                   {expertise.map((item, index) => (
                     <motion.li
@@ -189,7 +189,7 @@ const Aboutus = () => {
               <h2 className="text-3xl font-bold text-gray-800 mb-6">
                 Advanced Tools
               </h2>
-              <div className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="bg-white p-6 ">
                 <div className="grid grid-cols-2 gap-4">
                   {software.map((tool, index) => (
                     <motion.div

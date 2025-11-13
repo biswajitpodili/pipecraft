@@ -24,23 +24,12 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.linkedin.com/in/pipecraft-design-solutions-834521374"
                 className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300"
               >
                 <FaLinkedin className="w-5 h-5" />
               </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300"
-              >
-                <FaTwitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300"
-              >
-                <FaFacebook className="w-5 h-5" />
-              </a>
+              
             </div>
           </div>
 
@@ -64,6 +53,14 @@ const Footer = () => {
                   className="hover:text-blue-400 transition-colors duration-300"
                 >
                   About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/careers"
+                  className="hover:text-blue-400 transition-colors duration-300"
+                >
+                  Careers
                 </Link>
               </li>
               <li>

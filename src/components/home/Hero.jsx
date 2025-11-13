@@ -123,22 +123,36 @@ const Hero = () => {
           </motion.p>
 
           {/* CTA button */}
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => {
-              const el = document.getElementById("contact");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-              else window.location.href = "#contact";
-            }}
-            className="mt-6 inline-block bg-white text-black px-6 py-3 rounded-full font-semibold shadow-lg"
-            aria-label="Get started with PipeCraft"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-          >
-            <Link to="/contact">Get Started</Link>
-          </motion.button>
+          <div className="flex flex-row item-center justify-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => {}}
+              className="mt-6 inline-block bg-white text-black px-6 py-3 rounded-full font-semibold shadow-lg"
+              aria-label="Get started with PipeCraft"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <Link to="/about">About us</Link>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => {
+                const el = document.getElementById("contact");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+                else window.location.href = "#contact";
+              }}
+              className="mt-6 inline-block bg-transparent text-white border border-white px-6 py-3 rounded-full font-semibold shadow-lg"
+              aria-label="Get started with PipeCraft"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              <Link to="/contact">Get in touch</Link>
+            </motion.button>
+          </div>
         </div>
       </motion.div>
 
