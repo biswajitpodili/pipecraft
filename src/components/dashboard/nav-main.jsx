@@ -1,59 +1,56 @@
-"use client";
-
-import { ChevronRight } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 export function NavMain({ items }) {
+  const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState("overview");
+
+  useEffect(() => {
+    setActiveTab(window.location.pathname.split("/").pop());
+  }, [window.location.pathname]);
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
+        {items.map((item) => {
+          const isActive = activeTab === item.url.split("/").pop();
+          return (
+            <DropdownMenu key={item.title}>
+              <SidebarMenuItem>
+                <DropdownMenuTrigger asChild>
+                  <SidebarMenuButton
+                    className={`poppins font-semibold cursor-pointer ${isActive ? 'text-black! poppins-semibold' : ''}`}
+                    tooltip={item.title}
+                    isActive={isActive}
+                    onClick={() => {
+                      navigate(item.url);
+                    }}
+                  >
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </DropdownMenuTrigger>
+              </SidebarMenuItem>
+            </DropdownMenu>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

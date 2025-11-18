@@ -1,173 +1,100 @@
-"use client";
-
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
-
+import { GalleryVerticalEnd } from "lucide-react";
 import { NavMain } from "@/components/dashboard/nav-main";
-import { NavProjects } from "@/components/dashboard/nav-projects";
-import { NavUser } from "@/components/dashboard/nav-users";
-import { TeamSwitcher } from "@/components/dashboard/team-switcher";
+import { NavUser } from "@/components/dashboard/nav-user";
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { FaChartPie, FaUserPlus, FaUsers } from "react-icons/fa";
+import { MdOutlineDesignServices } from "react-icons/md";
+import { PiPipeLight } from "react-icons/pi";
+import { BiSolidContact } from "react-icons/bi";
+import { FaBuildingUser } from "react-icons/fa6";
+import { TbAdjustmentsCog, TbAdjustmentsHorizontal   } from "react-icons/tb";
+
+
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      id: 'overview',
+      title: "Overview",
+      url: "/dashboard",
+      icon: FaChartPie,
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      id: 'team',
+      title: "Team",
+      url: "/dashboard/team",
+      icon: FaUsers,
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      id: 'services',
+      title: "Services",
+      url: "/dashboard/services",
+      icon: TbAdjustmentsHorizontal ,
     },
     {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      id: 'projects',
+      title: "Projects",
+      url: "/dashboard/projects",
+      icon: PiPipeLight,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      id: 'contacts',
+      title: "Contacts",
+      url: "/dashboard/contacts",
+      icon: BiSolidContact,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      id: 'job-postings',
+      title: "Job Postings",
+      url: "/dashboard/job-postings",
+      icon: FaUserPlus,
+    },
+    {
+      id: 'applications',
+      title: "Applications",
+      url: "/dashboard/applications",
+      icon: FaBuildingUser,
     },
   ],
 };
 
 export function AppSidebar({ ...props }) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" className="transition-all duration-300 ease-in-out" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <a href="#">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <TbAdjustmentsCog   className="size-6" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="poppins-black">Pipecraft Designs</span>
+                  <span className="font-medium">Dashboard</span>
+                </div>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
