@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import project1 from "../assets/1.png";
-import project2 from "../assets/2.png";
-import project3 from "../assets/3.png";
-import project4 from "../assets/4.png";
+import project1 from "../../assets/1.png";
+import project2 from "../../assets/2.png";
+import project3 from "../../assets/3.png";
+import project4 from "../../assets/4.png";
 import { Link } from "react-router";
 
 const projects = [

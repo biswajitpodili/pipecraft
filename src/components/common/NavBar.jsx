@@ -9,7 +9,7 @@ const NavBar = () => {
   const navItems = [
     { id: "/", label: "Home" },
     { id: "/aboutus", label: "About" },
-    { id: "/services", label: "Service" },
+    { id: "/services", label: "Services" },
     { id: "/projects", label: "Projects" },
     { id: "/careers", label: "Careers" },
     { id: "/contactus", label: "Contact Us" }

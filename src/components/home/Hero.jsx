@@ -16,7 +16,8 @@ const Hero = () => {
   // Cache images in localStorage
   useEffect(() => {
     const cacheImages = async () => {
-      const cached = [];
+      const cached = new Array(images.length);
+      let loadedCount = 0;
 
       for (let i = 0; i < images.length; i++) {
         const imagePath = images[i];
@@ -27,7 +28,11 @@ const Hero = () => {
           const cachedData = localStorage.getItem(cacheKey);
 
           if (cachedData) {
-            cached.push(cachedData);
+            cached[i] = cachedData;
+            loadedCount++;
+            if (loadedCount === images.length) {
+              setCachedImages([...cached]);
+            }
           } else {
             // Fetch and cache the image
             const response = await fetch(imagePath);
@@ -39,14 +44,23 @@ const Hero = () => {
               const base64data = reader.result;
               try {
                 localStorage.setItem(cacheKey, base64data);
-                cached.push(base64data);
-                setCachedImages([...cached]);
+                cached[i] = base64data;
+                loadedCount++;
+                
+                // Update state after all images are cached
+                if (loadedCount === images.length) {
+                  setCachedImages([...cached]);
+                }
               } catch (e) {
                 // If localStorage is full, use original path
                 console.warn("LocalStorage full, using original image");
-                cached.push(imagePath);
-                console.log(e);
-                setCachedImages([...cached]);
+                cached[i] = imagePath;
+                loadedCount++;
+                
+                // Update state even on error
+                if (loadedCount === images.length) {
+                  setCachedImages([...cached]);
+                }
               }
             };
             reader.readAsDataURL(blob);
@@ -54,12 +68,12 @@ const Hero = () => {
         } catch (error) {
           console.error("Error caching image:", error);
           // Fallback to original image path
-          cached.push(imagePath);
+          cached[i] = imagePath;
+          loadedCount++;
+          if (loadedCount === images.length) {
+            setCachedImages([...cached]);
+          }
         }
-      }
-
-      if (cached.length === images.length) {
-        setCachedImages(cached);
       }
     };
 

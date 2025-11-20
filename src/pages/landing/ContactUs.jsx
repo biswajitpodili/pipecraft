@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import {
@@ -10,8 +10,10 @@ import {
   FaTwitter,
   FaFacebook,
 } from "react-icons/fa";
+import useContactContext from "@/context/useContactContext";
 
 const Contactus = () => {
+  const { createAContact } = useContactContext();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,10 +31,38 @@ const Contactus = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
+    
+    console.log("Form submitting with data:", formData);
+    
+    try {
+      await createAContact({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        companyName: formData.company,
+        serviceInterested: formData.service,
+        message: formData.message,
+      });
+
+      console.log("Contact created successfully");
+      
+      // Reset form after submission
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        service: "",
+        message: "",
+      });
+      
+      alert("Message sent successfully! We'll get back to you soon.");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to send message. Please try again.");
+    }
   };
 
   const contactInfo = [
@@ -340,7 +370,6 @@ const Contactus = () => {
                   >
                     <FaLinkedin className="text-gray-900 text-xl" />
                   </motion.a>
-                  
                 </div>
               </div>
             </motion.div>
