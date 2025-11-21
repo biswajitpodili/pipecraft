@@ -2,10 +2,12 @@ import React from "react";
 
 const InitContext = React.createContext();
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const InitProvider = ({ children }) => {
   const pingMe = async () => {
     try {
-     await fetch("/api/pingme");
+     await fetch(`${API_BASE_URL}/pingme`);
   
     } catch (error) {
       console.error("Ping failed:", error);

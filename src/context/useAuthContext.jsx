@@ -3,8 +3,7 @@ import { toast } from "sonner";
 
 const authContext = React.createContext();
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const useAuthContext = () => {
   const context = React.useContext(authContext);
