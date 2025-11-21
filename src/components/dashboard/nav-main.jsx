@@ -1,9 +1,6 @@
-import { MoreHorizontal } from "lucide-react";
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -11,19 +8,18 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 
 export function NavMain({ items }) {
-  const { isMobile } = useSidebar();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
     setActiveTab(window.location.pathname.split("/").pop());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.pathname]);
 
   return (

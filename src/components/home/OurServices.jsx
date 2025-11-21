@@ -1,20 +1,11 @@
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import {
-  FaCogs,
-  FaWrench,
-  FaCog,
-  FaBuilding,
-  FaBolt,
-  FaFireExtinguisher,
-} from "react-icons/fa";
 import { Link } from "react-router";
 
 const OurServices = () => {
   const services = [
     {
-      icon: <FaCogs className="w-8 h-8 text-blue-600" />,
       title: "Process Engineering",
       items: [
         "Development of process flow diagrams (PFDs) and piping & instrumentation diagrams (P&IDs)",
@@ -23,7 +14,6 @@ const OurServices = () => {
       ],
     },
     {
-      icon: <FaWrench className="w-8 h-8 text-green-600" />,
       title: "Piping Engineering",
       items: [
         "3D modelling, layout, and isometric generation",
@@ -32,7 +22,6 @@ const OurServices = () => {
       ],
     },
     {
-      icon: <FaCog className="w-8 h-8 text-purple-600" />,
       title: "Mechanical Engineering",
       items: [
         "Design and detailing of static and rotary equipment",
@@ -41,7 +30,6 @@ const OurServices = () => {
       ],
     },
     {
-      icon: <FaBuilding className="w-8 h-8 text-indigo-600" />,
       title: "Structural Engineering",
       items: [
         "Design and analysis of pipe racks, platforms, and supports",
@@ -50,7 +38,6 @@ const OurServices = () => {
       ],
     },
     {
-      icon: <FaBolt className="w-8 h-8 text-yellow-600" />,
       title: "Electrical & Instrumentation",
       items: [
         "Design of control systems, cable routing, and panel layouts",
@@ -59,7 +46,6 @@ const OurServices = () => {
       ],
     },
     {
-      icon: <FaFireExtinguisher className="w-8 h-8 text-red-600" />,
       title: "Fire Fighting System Design",
       items: [
         "Fire water network design and hydraulic calculations",
@@ -74,7 +60,7 @@ const OurServices = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-20">
-          <h1 className="text-4xl md:text-6xl font-light text-white tracking-tight mb-6">
+          <h1 className="text-4xl md:text-6xl poppins-light text-white tracking-tight mb-6">
             Our Services
           </h1>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-6"></div>
@@ -107,19 +93,8 @@ const OurServices = () => {
                       : "bg-linear-to-br from-gray-800/80 to-slate-800/80"
                   }`}
                 >
-                  {/* Icon and Number */}
+                  {/* Number */}
                   <div className="flex items-center gap-6 mb-6">
-                    <div
-                      className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                        index % 2 === 0 ? "bg-blue-500/20" : "bg-gray-600/20"
-                      }`}
-                    >
-                      <div className="text-white">
-                        {React.cloneElement(service.icon, {
-                          className: "w-8 h-8",
-                        })}
-                      </div>
-                    </div>
                     <div
                       className={`text-5xl font-bold ${
                         index % 2 === 0 ? "text-blue-400" : "text-gray-400"
@@ -131,7 +106,7 @@ const OurServices = () => {
 
                   {/* Content */}
                   <div>
-                    <h3 className="text-3xl md:text-4xl font-semibold text-white mb-8 tracking-tight">
+                    <h3 className="text-3xl md:text-4xl poppins-semibold text-white mb-8 tracking-tight">
                       {service.title}
                     </h3>
 
@@ -193,7 +168,7 @@ const OurServices = () => {
               className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Link
-                to="/contact"
+                to="/contactus"
                 className="group relative bg-white text-gray-700 px-10 py-5 rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-2xl"
               >
                 <span className="relative z-10">Contact Our Team</span>

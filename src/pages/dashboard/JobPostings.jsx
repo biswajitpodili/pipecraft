@@ -35,6 +35,7 @@ import useJobPostingsContext from "@/context/useJobPostingsContext";
 import JobPostingModal from "@/components/dashboard/JobPostingModal";
 import JobPostingDetailsModal from "@/components/dashboard/JobPostingDetailsModal";
 import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
+import { toast } from "sonner";
 
 const JobPostings = () => {
   const { jobPostings, loading, getJobPostings, createJobPosting, updateJobPosting, deleteJobPosting } =
@@ -118,7 +119,7 @@ const JobPostings = () => {
       }
       handleCloseModal();
     } catch (error) {
-      alert(error.message || "Failed to save job posting");
+      toast.error(error.message || "Failed to save job posting");
     } finally {
       setUpdating(false);
     }
@@ -142,7 +143,7 @@ const JobPostings = () => {
       await deleteJobPosting(jobPostingToDelete.careerId);
       handleCloseDeleteModal();
     } catch (error) {
-      alert(error.message || "Failed to delete job posting");
+      toast.error(error.message || "Failed to delete job posting");
     } finally {
       setDeleting(false);
     }

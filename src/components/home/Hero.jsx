@@ -11,73 +11,19 @@ const images = [hero1, hero2, hero3, hero4];
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [cachedImages, setCachedImages] = useState([]);
 
   // Cache images in localStorage
   useEffect(() => {
-    const cacheImages = async () => {
-      const cached = new Array(images.length);
-      let loadedCount = 0;
-
-      for (let i = 0; i < images.length; i++) {
-        const imagePath = images[i];
-        const cacheKey = `hero_image_${i}`;
-
-        try {
-          // Check if image is already cached
-          const cachedData = localStorage.getItem(cacheKey);
-
-          if (cachedData) {
-            cached[i] = cachedData;
-            loadedCount++;
-            if (loadedCount === images.length) {
-              setCachedImages([...cached]);
-            }
-          } else {
-            // Fetch and cache the image
-            const response = await fetch(imagePath);
-            const blob = await response.blob();
-
-            // Convert blob to base64
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              const base64data = reader.result;
-              try {
-                localStorage.setItem(cacheKey, base64data);
-                cached[i] = base64data;
-                loadedCount++;
-                
-                // Update state after all images are cached
-                if (loadedCount === images.length) {
-                  setCachedImages([...cached]);
-                }
-              } catch (e) {
-                // If localStorage is full, use original path
-                console.warn("LocalStorage full, using original image");
-                cached[i] = imagePath;
-                loadedCount++;
-                
-                // Update state even on error
-                if (loadedCount === images.length) {
-                  setCachedImages([...cached]);
-                }
-              }
-            };
-            reader.readAsDataURL(blob);
-          }
-        } catch (error) {
-          console.error("Error caching image:", error);
-          // Fallback to original image path
-          cached[i] = imagePath;
-          loadedCount++;
-          if (loadedCount === images.length) {
-            setCachedImages([...cached]);
-          }
-        }
-      }
+    const preloadImages = () => {
+      images.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
     };
 
-    cacheImages();
+    preloadImages();
   }, []);
 
   useEffect(() => {
@@ -148,7 +94,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
             >
-              <Link to="/about">About us</Link>
+              <Link to="/aboutus">About us</Link>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -164,7 +110,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
             >
-              <Link to="/contact">Get in touch</Link>
+              <Link to="/contactus">Get in touch</Link>
             </motion.button>
           </div>
         </div>

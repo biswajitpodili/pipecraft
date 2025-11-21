@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
+import serviceData from "../lib/data/services";
+import { toast } from "sonner";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ServicesContext = createContext();
 
 const useServicesContext = () => {
@@ -13,7 +16,7 @@ const useServicesContext = () => {
 };
 
 export const ServicesProvider = ({ children }) => {
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState(serviceData);
   const [loading, setLoading] = useState(false);
 
   const API_URL =
@@ -33,6 +36,16 @@ export const ServicesProvider = ({ children }) => {
 
       if (response.ok) {
         setServices(data.data || []);
+        const currentServices = data.data || [];
+        const storedServices = localStorage.getItem('services');
+        if (storedServices) {
+          const parsedStored = JSON.parse(storedServices);
+          if (JSON.stringify(parsedStored) !== JSON.stringify(currentServices)) {
+            localStorage.setItem('services', JSON.stringify(currentServices));
+          }
+        } else {
+          localStorage.setItem('services', JSON.stringify(currentServices));
+        }
       } else {
         console.error("Failed to fetch services:", data.message);
       }
@@ -57,6 +70,7 @@ export const ServicesProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
+        toast.success("Service created successfully");
         await getServices();
         return data.data;
       } else {
@@ -118,7 +132,12 @@ export const ServicesProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const storedServices = localStorage.getItem('services');
+    if (storedServices) {
+      setServices(JSON.parse(storedServices));
+    }
     getServices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -137,4 +156,6 @@ export const ServicesProvider = ({ children }) => {
   );
 };
 
+
+// eslint-disable-next-line react-refresh/only-export-components
 export default useServicesContext;

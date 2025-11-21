@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Briefcase, Building2, FileText, Image as ImageIcon } from "lucide-react";
+import { toast } from "sonner";
 
 const ProjectModal = ({ isOpen, onClose, project, onUpdate, onCreate, updating }) => {
   const [formData, setFormData] = useState({
@@ -69,10 +70,17 @@ const ProjectModal = ({ isOpen, onClose, project, onUpdate, onCreate, updating }
       } else {
         await onCreate(formData);
       }
+      setFormData({
+        name: "",
+        client: "",
+        scope: "",
+        image: null,
+      });
+      setImagePreview(null);
       onClose();
     } catch (error) {
       console.error("Failed to save project:", error);
-      alert(`Failed to ${isEdit ? "update" : "create"} project`);
+      toast.error(`Failed to ${isEdit ? "update" : "create"} project`);
     }
   };
 

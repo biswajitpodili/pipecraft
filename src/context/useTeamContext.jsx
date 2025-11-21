@@ -1,7 +1,10 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import useAuthContext from "./useAuthContext";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const TeamContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTeamContext = () => {
   const context = useContext(TeamContext);
   if (!context) {
@@ -14,6 +17,7 @@ const API_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
 export const TeamProvider = ({ children }) => {
+  const { isAuthenticated } = useAuthContext();
   const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -123,8 +127,10 @@ export const TeamProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getTeam();
-  }, []);
+    if (isAuthenticated) {
+      getTeam();
+    }
+  }, [isAuthenticated]);
 
   return (
     <TeamContext.Provider

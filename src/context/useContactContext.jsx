@@ -24,7 +24,6 @@ const ContactProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      console.log("Creating contact with data:", contactData);
       const response = await fetch(`${API_BASE_URL}/contacts`, {
         method: "POST",
         headers: {
@@ -34,7 +33,6 @@ const ContactProvider = ({ children }) => {
       });
 
       const data = await response.json();
-      console.log("Response:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to create contact");
@@ -161,4 +159,5 @@ const ContactProvider = ({ children }) => {
 };
 
 export { ContactProvider };
+// eslint-disable-next-line react-refresh/only-export-components
 export default useContactContext;

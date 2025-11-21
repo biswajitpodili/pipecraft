@@ -1,5 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
+import projectData from "../lib/data/projects";
+import { toast } from "sonner";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ProjectsContext = createContext();
 
 const useProjectsContext = () => {
@@ -13,10 +16,11 @@ const useProjectsContext = () => {
 };
 
 export const ProjectsProvider = ({ children }) => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState(projectData);
   const [loading, setLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";;
+  const API_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
   const getProjects = async () => {
     setLoading(true);
@@ -32,6 +36,15 @@ export const ProjectsProvider = ({ children }) => {
 
       if (response.ok) {
         setProjects(data.data || []);
+        const storedProjects = localStorage.getItem("projects");
+        const fetchedProjects = data.data || [];
+        if (
+          !storedProjects ||
+          JSON.stringify(JSON.parse(storedProjects)) !==
+            JSON.stringify(fetchedProjects)
+        ) {
+          localStorage.setItem("projects", JSON.stringify(fetchedProjects));
+        }
       } else {
         console.error("Failed to fetch projects:", data.message);
       }
@@ -61,7 +74,10 @@ export const ProjectsProvider = ({ children }) => {
 
       const data = await response.json();
 
+
+
       if (response.ok) {
+        toast.success("Project created successfully");
         await getProjects();
         return data.data;
       } else {
@@ -129,7 +145,12 @@ export const ProjectsProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const storedProjects = localStorage.getItem("projects");
+    if (storedProjects) {
+      setProjects(JSON.parse(storedProjects));
+    }
     getProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -148,4 +169,6 @@ export const ProjectsProvider = ({ children }) => {
   );
 };
 
+
+// eslint-disable-next-line react-refresh/only-export-components
 export default useProjectsContext;

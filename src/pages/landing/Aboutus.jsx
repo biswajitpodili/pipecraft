@@ -281,7 +281,7 @@ const Aboutus = () => {
                 viewport={{ once: true }}
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
-                <Link to="/contact" className="group relative bg-white text-gray-700 px-10 py-4 rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-2xl">
+                <Link to="/contactus" className="group relative bg-white text-gray-700 px-10 py-4 rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-2xl">
                   <span className="relative z-10">Contact Our Team</span>
                   <div className="absolute inset-0 bg-linear-to-r from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </Link>

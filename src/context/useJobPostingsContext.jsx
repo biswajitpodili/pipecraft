@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const JobPostingsContext = createContext();
 
 const useJobPostingsContext = () => {
@@ -16,7 +17,8 @@ export const JobPostingsProvider = ({ children }) => {
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
+  const API_URL =
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
 
   const getJobPostings = async () => {
     setLoading(true);
@@ -29,11 +31,22 @@ export const JobPostingsProvider = ({ children }) => {
       });
 
       const data = await response.json();
+      setJobPostings(data.data || []);
 
-      if (response.ok) {
-        setJobPostings(data.data || []);
+      const storedJobPostings = localStorage.getItem("jobPostings");
+      const fetchedJobPostings = data.data || [];
+      if (storedJobPostings) {
+        const parsedStored = JSON.parse(storedJobPostings);
+        if (
+          JSON.stringify(parsedStored) !== JSON.stringify(fetchedJobPostings)
+        ) {
+          localStorage.setItem(
+            "jobPostings",
+            JSON.stringify(fetchedJobPostings)
+          );
+        }
       } else {
-        console.error("Failed to fetch job postings:", data.message);
+        localStorage.setItem("jobPostings", JSON.stringify(fetchedJobPostings));
       }
     } catch (error) {
       console.error("Failed to fetch job postings:", error);
@@ -57,6 +70,7 @@ export const JobPostingsProvider = ({ children }) => {
 
       if (response.ok) {
         await getJobPostings();
+
         return data.data;
       } else {
         throw new Error(data.message || "Failed to create job posting");
@@ -117,7 +131,12 @@ export const JobPostingsProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const storedJobPostings = localStorage.getItem("jobPostings");
+    if (storedJobPostings) {
+      setJobPostings(JSON.parse(storedJobPostings));
+    }
     getJobPostings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -136,4 +155,5 @@ export const JobPostingsProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default useJobPostingsContext;

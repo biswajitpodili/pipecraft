@@ -13,6 +13,7 @@ import {
 import { Search, LayoutGrid, TableIcon, MoreVertical, Trash2, RefreshCw, Loader2, Eye, ChevronLeft, ChevronRight, ExternalLink, User, Mail, Phone, Briefcase } from "lucide-react";
 import ApplicationDetailsModal from "@/components/dashboard/ApplicationDetailsModal";
 import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
+import { toast } from "sonner";
 
 const Applications = () => {
   const { applications, loading, deleteApplication, getApplications } = useApplicationsContext();
@@ -82,7 +83,7 @@ const Applications = () => {
           setCurrentPage(currentPage - 1);
         }
       } else {
-        alert(result.message || "Failed to delete application");
+        toast.error(result.message || "Failed to delete application");
       }
     } finally {
       setDeleting(false);

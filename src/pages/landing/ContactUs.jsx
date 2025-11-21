@@ -7,10 +7,16 @@ import {
   FaMapMarkerAlt,
   FaClock,
   FaLinkedin,
-  FaTwitter,
-  FaFacebook,
 } from "react-icons/fa";
 import useContactContext from "@/context/useContactContext";
+import { toast } from "sonner";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const Contactus = () => {
   const { createAContact } = useContactContext();
@@ -33,9 +39,6 @@ const Contactus = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    console.log("Form submitting with data:", formData);
-    
     try {
       await createAContact({
         name: formData.name,
@@ -46,8 +49,6 @@ const Contactus = () => {
         message: formData.message,
       });
 
-      console.log("Contact created successfully");
-      
       // Reset form after submission
       setFormData({
         name: "",
@@ -57,11 +58,11 @@ const Contactus = () => {
         service: "",
         message: "",
       });
-      
-      alert("Message sent successfully! We'll get back to you soon.");
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Failed to send message. Please try again.");
+      toast.error("Failed to send message. Please try again.");
     }
   };
 
@@ -69,7 +70,7 @@ const Contactus = () => {
     {
       icon: <FaPhone className="text-3xl" />,
       title: "Phone",
-      details: ["+91 8758702712", "+91 8320068081"],
+      details: ["+91 8320068081"],
     },
     {
       icon: <FaEnvelope className="text-3xl" />,
@@ -269,20 +270,21 @@ const Contactus = () => {
                   >
                     Service Interested In
                   </label>
-                  <select
-                    id="service"
-                    name="service"
+                  <Select
                     value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-gray-900 transition-colors duration-300"
+                    onValueChange={(value) => setFormData({ ...formData, service: value })}
                   >
-                    <option value="">Select a service</option>
-                    {services.map((service, index) => (
-                      <option key={index} value={service}>
-                        {service}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-gray-900 transition-colors duration-300">
+                      <SelectValue placeholder="Select a service" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {services.map((service, index) => (
+                        <SelectItem key={index} value={service}>
+                          {service}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Message */}

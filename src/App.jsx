@@ -7,6 +7,7 @@ import Contactus from "@/pages/landing/ContactUs";
 import Projects from "@/pages/landing/Projects";
 import { useEffect } from "react";
 import Careers from "@/pages/landing/Careers";
+import ApplyJob from "@/pages/landing/ApplyJob";
 import Login from "@/pages/auth/Login";
 import HomeLayout from "@/layout/HomeLayout";
 import DashboardServices from "@/pages/dashboard/Services";
@@ -48,6 +49,7 @@ function App() {
           <Route path="contactus" element={<Contactus />} />
           <Route path="projects" element={<Projects />} />
           <Route path="careers" element={<Careers />} />
+          <Route path="careers/:careerId" element={<ApplyJob />} />
           <Route path="*" element={<Error />} />
         </Route>
         <Route path="/login" element={<Login />} />

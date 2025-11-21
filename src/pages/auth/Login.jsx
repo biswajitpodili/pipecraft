@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useAuthContext from "../../context/useAuthContext";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 
@@ -16,6 +17,7 @@ const Login = () => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   const handleChange = (e) => {
@@ -31,10 +33,7 @@ const Login = () => {
 
     try {
       const userData = await login(formData);
-      console.log(userData);
       if (userData) {
-        console.log("User logged in:", userData);
-        // You can redirect the user or show a success message here
         navigate("/dashboard");
       }
     } catch (error) {

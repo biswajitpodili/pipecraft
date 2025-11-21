@@ -1,79 +1,40 @@
-import  { useState } from "react";
+import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { FaUpload, FaFilePdf } from "react-icons/fa";
+import { useNavigate } from "react-router";
+import useJobPostingsContext from "@/context/useJobPostingsContext";
+import { MapPin, Briefcase, Clock, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BiRupee } from "react-icons/bi";
 
 const Careers = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    position: "",
-    message: "",
-    cv: null
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
+  const { jobPostings, loading } = useJobPostingsContext();
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Validate file type
-      if (file.type !== "application/pdf") {
-        alert("Please upload a PDF file only.");
-        return;
-      }
-      // Validate file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        alert("File size must be less than 5MB.");
-        return;
-      }
-      setFormData(prev => ({
-        ...prev,
-        cv: file
-      }));
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
+  const formatDate = (dateString) => {
     try {
-      // Here you would typically send the form data to your backend
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
-      setSubmitMessage("Thank you for your application! We'll review your CV and get back to you soon.");
-      setFormData({
-        name: "",
-        email: "",
-        position: "",
-        message: "",
-        cv: null
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return "N/A";
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
       });
-      // Reset file input
-      const fileInput = document.getElementById("cv-upload");
-      if (fileInput) fileInput.value = "";
     } catch (error) {
-      setSubmitMessage("There was an error submitting your application. Please try again.");
-      console.error("Submission error:", error);
-    } finally {
-      setIsSubmitting(false);
+      console.error("Error formatting date:", error);
+      return "N/A";
     }
   };
+
+  const activeJobs = jobPostings.filter((job) => job.isActive);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50 poppins min-h-screen">
       {/* Hero Section */}
       <motion.section
-        className="text-gray-900 pt-20 px-6 bg-white"
+        className="text-gray-900 pt-20 px-6 pb-12"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -85,7 +46,7 @@ const Careers = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            Careers at PipeCraft
+            Join Our Team
           </motion.h1>
           <motion.p
             className="text-xl leading-relaxed text-gray-600"
@@ -93,181 +54,222 @@ const Careers = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            We're excited to hear from talented individuals eager to join our team
-            and contribute to innovative engineering solutions.
+            Explore exciting career opportunities and grow with PipeCraft's
+            innovative engineering team
           </motion.p>
         </div>
       </motion.section>
 
-      {/* Application Form */}
+      {/* Job Listings */}
       <section className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
+        <div className="container mx-auto ">
+          {loading ? (
+            <div className="text-center py-10">
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-gray-900 border-r-transparent"></div>
+              <p className="mt-4 text-gray-600">Loading job openings...</p>
+            </div>
+          ) : activeJobs.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-20"
+            >
+              <div className="mb-6">
+                <Briefcase className="h-20 w-20 mx-auto text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                No Open Positions
+              </h3>
+              {/* <p className="text-gray-600 mb-8">
+                We don't have any open positions at the moment, but we're always
+                looking for talented individuals.
+              </p>
+              <Link to="/contact">
+                <Button className="bg-black hover:bg-black/80 poppins-semibold">
+                  Send Us Your Resume
+                </Button>
+              </Link> */}
+            </motion.div>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2 poppins-bold">
+                  Open Positions
+                </h2>
+                <p className="text-gray-600">
+                  {activeJobs.length}{" "}
+                  {activeJobs.length === 1 ? "position" : "positions"} available
+                </p>
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-3">
+                {activeJobs.map((job, index) => (
+                  <motion.div
+                    key={job.careerId}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                  >
+                    <Card className="group h-full flex flex-col hover:shadow-xl transition-all duration-300 border-gray-200 hover:border-gray-400">
+                      {/* Colored Top Bar */}
+
+                      <CardHeader className="pb-4">
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <Badge
+                            variant="secondary"
+                            className="shrink-0 bg-green-100 text-green-800 hover:bg-green-100"
+                          >
+                            {job.numberOfPositions}{" "}
+                            {job.numberOfPositions === 1
+                              ? "Opening"
+                              : "Openings"}
+                          </Badge>
+                          <div className="text-xs text-gray-500">
+                            Posted {formatDate(job.createdAt)}
+                          </div>
+                        </div>
+
+                        <CardTitle className="text-2xl mb-3 poppins-bold group-hover:text-gray-700 transition-colors">
+                          {job.jobTitle}
+                        </CardTitle>
+
+                        <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                          <div className="flex items-center gap-1.5">
+                            <Briefcase className="h-4 w-4" />
+                            {job.department}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <MapPin className="h-4 w-4" />
+                            {job.location}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-4 w-4" />
+                            {job.jobType}
+                          </div>
+                        </div>
+                      </CardHeader>
+
+                      <CardContent className="flex-1 flex flex-col">
+                        <p className="text-gray-700 line-clamp-3 leading-relaxed mb-4">
+                          {job.description}
+                        </p>
+
+                        <div className="h-px bg-gray-200 my-2"></div>
+
+                        <div className="space-y-2 text-sm mb-6">
+                          {job.experienceLevel && (
+                            <div className="flex items-center gap-1.5 text-gray-600">
+                              <span className="poppins-semibold">Experience:</span>
+                              {job.experienceLevel}
+                            </div>
+                          )}
+                          {job.salary && (
+                            <div className="flex items-center gap-1 text-gray-600 poppins-semibold">
+                              <BiRupee className="h-5 w-5" />
+                              {job.salary.min} - {job.salary.max}
+                            </div>
+                          )}
+                          {job.applicationDeadline && (
+                            <div className="flex items-center gap-1.5 text-gray-600 poppins-semibold">
+                              <Calendar className="h-4 w-4" />
+                              Apply by: {formatDate(job.applicationDeadline)}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="mt-auto">
+                          <Button
+                            onClick={() => navigate(`/careers/${job.careerId}`)}
+                            className="w-full bg-black hover:bg-black/80 poppins-semibold"
+                          >
+                            Apply Now
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* Why Join Us Section */}
+      <section className="py-16 px-6 bg-gray-900">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
-            className="bg-white border border-gray-200 rounded-2xl p-8 md:p-12 shadow-lg"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Apply for a Position
+            <h2 className="text-4xl font-bold text-gray-100 mb-4 text-center poppins-bold">
+              Why Join PipeCraft?
             </h2>
+            <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+              Be part of a team that values innovation, excellence, and growth
+            </p>
 
-            {submitMessage && (
-              <motion.div
-                className={`mb-6 p-4 rounded-xl ${
-                  submitMessage.includes("error")
-                    ? "bg-red-50 border border-red-200 text-red-800"
-                    : "bg-green-50 border border-green-200 text-green-800"
-                }`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                {submitMessage}
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Full Name *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter your full name"
-                />
-              </div>
-
-              {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter your email address"
-                />
-              </div>
-
-              {/* Position Field */}
-              <div>
-                <label htmlFor="position" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Position Applied For *
-                </label>
-                <select
-                  id="position"
-                  name="position"
-                  value={formData.position}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200 bg-white"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: "Growth Opportunities",
+                  description:
+                    "Continuous learning and career advancement programs",
+                },
+                {
+                  title: "Innovative Projects",
+                  description: "Work on cutting-edge engineering solutions",
+                },
+                {
+                  title: "Collaborative Culture",
+                  description:
+                    "Supportive team environment with experienced professionals",
+                },
+                {
+                  title: "Competitive Benefits",
+                  description:
+                    "Attractive compensation and comprehensive benefits package",
+                },
+              ].map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  className="relative bg-gray-800 border border-gray-700 rounded-xl p-8 text-center hover:border-gray-500 transition-all duration-300 overflow-hidden group"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
                 >
-                  <option value="">Select a position</option>
-                  <option value="process-engineer">Process Engineer</option>
-                  <option value="piping-engineer">Piping Engineer</option>
-                  <option value="mechanical-engineer">Mechanical Engineer</option>
-                  <option value="structural-engineer">Structural Engineer</option>
-                  <option value="electrical-engineer">Electrical Engineer</option>
-                  <option value="project-manager">Project Manager</option>
-                  <option value="cad-drafter">CAD Drafter</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-600/0 to-purple-600/0 group-hover:from-blue-600/10 group-hover:to-purple-600/10 transition-all duration-500"></div>
 
-              {/* CV Upload Field */}
-              <div>
-                <label htmlFor="cv-upload" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Upload CV/Resume (PDF only, max 5MB) *
-                </label>
-                <div className="relative">
-                  <input
-                    type="file"
-                    id="cv-upload"
-                    accept=".pdf"
-                    onChange={handleFileChange}
-                    required
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  <div className="flex items-center justify-center w-full px-4 py-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-gray-400 transition-colors duration-200 bg-gray-50 hover:bg-gray-100">
-                    <div className="text-center">
-                      {formData.cv ? (
-                        <div className="flex items-center space-x-3">
-                          <FaFilePdf className="w-8 h-8 text-red-500" />
-                          <div className="text-left">
-                            <p className="text-sm font-medium text-gray-900">{formData.cv.name}</p>
-                            <p className="text-xs text-gray-500">
-                              {(formData.cv.size / 1024 / 1024).toFixed(2)} MB
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center space-y-2">
-                          <FaUpload className="w-8 h-8 text-gray-400" />
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">Click to upload your CV</p>
-                            <p className="text-xs text-gray-500">PDF files only (max 5MB)</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                  <div className="absolute -top-1 -right-1 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-gray-900 font-bold text-sm poppins-semibold">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </div>
-                </div>
-              </div>
 
-              {/* Message Field */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Cover Letter / Additional Information
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200 resize-none"
-                  placeholder="Tell us why you're interested in this position and what makes you a great fit..."
-                />
-              </div>
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold text-white mb-3 poppins-semibold">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </div>
 
-              {/* Submit Button */}
-              <div className="pt-4">
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full py-4 px-6 rounded-xl font-semibold text-white transition-all duration-200 ${
-                    isSubmitting
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-gray-900 hover:bg-gray-800 active:scale-95"
-                  }`}
-                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Submitting...</span>
-                    </div>
-                  ) : (
-                    "Submit Application"
-                  )}
-                </motion.button>
-              </div>
-            </form>
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-blue-500 to-purple-500"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.3, duration: 0.8 }}
+                  ></motion.div>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>

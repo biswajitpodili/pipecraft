@@ -14,6 +14,7 @@ import { Search, LayoutGrid, TableIcon, MoreVertical, Edit, Trash2, RefreshCw, L
 import TeamMemberModal from "@/components/dashboard/TeamMemberModal";
 import TeamMemberDetailsModal from "@/components/dashboard/TeamMemberDetailsModal";
 import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
+import { toast } from "sonner";
 
 const Team = () => {
   const { team, loading, createTeamMember, updateTeamMember, deleteTeamMember, getTeam } = useTeamContext();
@@ -96,14 +97,14 @@ const Team = () => {
           setIsModalOpen(false);
           setSelectedMember(null);
         } else {
-          alert(result.message || "Failed to update team member");
+          toast.error(result.message || "Failed to update team member");
         }
       } else {
         const result = await createTeamMember(memberData);
         if (result.success) {
           setIsModalOpen(false);
         } else {
-          alert(result.message || "Failed to create team member");
+          toast.error(result.message || "Failed to create team member");
         }
       }
     } finally {
@@ -123,7 +124,7 @@ const Team = () => {
           setCurrentPage(currentPage - 1);
         }
       } else {
-        alert(result.message || "Failed to delete team member");
+        toast.error(result.message || "Failed to delete team member");
       }
     } finally {
       setDeleting(false);

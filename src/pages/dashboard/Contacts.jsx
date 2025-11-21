@@ -46,6 +46,7 @@ import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import ContactModal from "@/components/dashboard/ContactModal";
 import ContactDetailsModal from "@/components/dashboard/ContactDetailsModal";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 const Contacts = () => {
   const { contacts, loading, deleteContact, updateContact, getContacts } =
@@ -251,7 +252,7 @@ const Contacts = () => {
       doc.save(`contacts-${new Date().toISOString().split("T")[0]}.pdf`);
     } catch (error) {
       console.error("PDF export failed:", error);
-      alert(`Failed to export PDF: ${error.message}`);
+      toast.error(`Failed to export PDF: ${error.message}`);
     } finally {
       setExporting(false);
     }
@@ -286,7 +287,8 @@ const Contacts = () => {
       setIsDeleteModalOpen(false);
       setContactToDelete(null);
     } catch (error) {
-      alert("Failed to delete contact");
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete contact");
     } finally {
       setDeleting(false);
     }

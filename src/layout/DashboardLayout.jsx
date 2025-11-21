@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/dashboard/app-sidebar";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,18 +18,16 @@ import useAuthContext from "@/context/useAuthContext";
 import { Outlet, useNavigate } from "react-router";
 
 export default function DashboardLayout() {
-  const { isAuthenticated, user } = useAuthContext();
+  const { isAuthenticated } = useAuthContext();
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <SidebarProvider>

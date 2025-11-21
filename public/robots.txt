@@ -1,0 +1,26 @@
+# robots.txt for PipeCraft
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and dashboard areas
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /register
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Allow specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Crawl-delay for polite crawling
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://pipecraft.tech/sitemap.xml

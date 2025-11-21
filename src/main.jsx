@@ -9,23 +9,28 @@ import { ServicesProvider } from "./context/useServicesContext.jsx";
 import { JobPostingsProvider } from "./context/useJobPostingsContext.jsx";
 import { TeamProvider } from "./context/useTeamContext.jsx";
 import { ApplicationsProvider } from "./context/useApplicationsContext";
+import { InitProvider } from "./context/useInitContext";
+import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <ContactProvider>
-        <ProjectsProvider>
-          <ServicesProvider>
-            <JobPostingsProvider>
-              <TeamProvider>
-                <ApplicationsProvider>
-                  <App />
-                </ApplicationsProvider>
-              </TeamProvider>
-            </JobPostingsProvider>
-          </ServicesProvider>
-        </ProjectsProvider>
-      </ContactProvider>
-    </AuthProvider>
+    <InitProvider>
+      <AuthProvider>
+        <ContactProvider>
+          <ProjectsProvider>
+            <ServicesProvider>
+              <JobPostingsProvider>
+                <TeamProvider>
+                  <ApplicationsProvider>
+                    <App />
+                    <Toaster />
+                  </ApplicationsProvider>
+                </TeamProvider>
+              </JobPostingsProvider>
+            </ServicesProvider>
+          </ProjectsProvider>
+        </ContactProvider>
+      </AuthProvider>
+    </InitProvider>
   </StrictMode>
 );

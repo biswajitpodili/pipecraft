@@ -42,6 +42,7 @@ import useServicesContext from "@/context/useServicesContext";
 import ServiceModal from "@/components/dashboard/ServiceModal";
 import ServiceDetailsModal from "@/components/dashboard/ServiceDetailsModal";
 import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
+import { toast } from "sonner";
 
 const Services = () => {
   const { services, loading, getServices, createService, updateService, deleteService } =
@@ -124,7 +125,7 @@ const Services = () => {
       }
       handleCloseModal();
     } catch (error) {
-      alert(error.message || "Failed to save service");
+      toast.error(error.message || "Failed to save service");
     } finally {
       setUpdating(false);
     }
@@ -148,19 +149,19 @@ const Services = () => {
       await deleteService(serviceToDelete.serviceId);
       handleCloseDeleteModal();
     } catch (error) {
-      alert(error.message || "Failed to delete service");
+      toast.error(error.message || "Failed to delete service");
     } finally {
       setDeleting(false);
     }
   };
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
-  };
+  // const handlePreviousPage = () => {
+  //   setCurrentPage((prev) => Math.max(prev - 1, 1));
+  // };
 
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
+  // const handleNextPage = () => {
+  //   setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  // };
 
   if (loading && !refreshing && !updating && !deleting) {
     return (

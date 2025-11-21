@@ -1,98 +1,11 @@
 import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import {
-  FaCogs,
-  FaWrench,
-  FaCog,
-  FaBuilding,
-  FaBolt,
-  FaFireExtinguisher,
-} from "react-icons/fa";
 import { Link } from "react-router";
+import useServicesContext from "@/context/useServicesContext";
 
 const Services = () => {
-
-  const services = [
-    {
-      icon: <FaCogs className="text-5xl text-blue-600" />,
-      title: "Process Engineering",
-      description:
-        "Comprehensive process design and optimization solutions for industrial facilities.",
-      features: [
-        "Development of process flow diagrams (PFDs) and piping & instrumentation diagrams (P&IDs)",
-        "Process simulation and optimization",
-        "Equipment sizing and selection",
-        "Heat and material balance calculations",
-      ],
-      color: "blue",
-    },
-    {
-      icon: <FaWrench className="text-5xl text-green-600" />,
-      title: "Piping Engineering",
-      description:
-        "Advanced piping design and engineering services with cutting-edge 3D modeling technology.",
-      features: [
-        "3D modelling, layout, and isometric generation",
-        "Material take-off (MTO) and stress analysis of critical lines",
-        "Piping GA drawings and final equipment layouts",
-        "Piping support design and specifications",
-      ],
-      color: "green",
-    },
-    {
-      icon: <FaCog className="text-5xl text-purple-600" />,
-      title: "Mechanical Engineering",
-      description:
-        "Expert mechanical design and detailing for static and rotary equipment.",
-      features: [
-        "Design and detailing of static and rotary equipment",
-        "Tank and vessel design and general arrangements",
-        "Equipment layout and interface engineering",
-        "Mechanical equipment specifications",
-      ],
-      color: "purple",
-    },
-    {
-      icon: <FaBuilding className="text-5xl text-indigo-600" />,
-      title: "Structural Engineering",
-      description:
-        "Structural design and analysis services ensuring safety and compliance.",
-      features: [
-        "Design and analysis of pipe racks, platforms, and supports",
-        "Structural detailing using STAADPRO and TEKLA",
-        "Integration with plant layout and civil design",
-        "Foundation design and specifications",
-      ],
-      color: "indigo",
-    },
-    {
-      icon: <FaBolt className="text-5xl text-yellow-600" />,
-      title: "Electrical & Instrumentation",
-      description:
-        "Integrated electrical and instrumentation design for process automation.",
-      features: [
-        "Design of control systems, cable routing, and panel layouts",
-        "Instrument index, loop diagrams, and field installation details",
-        "Integration with process automation systems",
-        "Power distribution and lighting design",
-      ],
-      color: "yellow",
-    },
-    {
-      icon: <FaFireExtinguisher className="text-5xl text-red-600" />,
-      title: "Fire Fighting System Design",
-      description:
-        "Comprehensive fire protection system design ensuring maximum safety.",
-      features: [
-        "Fire water network design and hydraulic calculations",
-        "Equipment and piping layout for fire protection systems",
-        "Compliance with national and international safety standards",
-        "Fire detection and alarm system design",
-      ],
-      color: "red",
-    },
-  ];
+  const { services } = useServicesContext();
 
   const benefits = [
     {
@@ -160,22 +73,8 @@ const Services = () => {
               >
                 {/* Card Content */}
                 <div className="p-8 flex-1 flex flex-col">
-                  {/* Icon */}
-                  <motion.div
-                    className="mb-6"
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center group-hover:bg-gray-900 transition-colors duration-300">
-                      {React.cloneElement(service.icon, {
-                        className:
-                          "text-3xl text-gray-700 group-hover:text-white transition-colors duration-300",
-                      })}
-                    </div>
-                  </motion.div>
-
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
+                  <h3 className="text-2xl poppins-bold font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
                     {service.title}
                   </h3>
 
@@ -290,7 +189,7 @@ const Services = () => {
                     >
                       {/* Step Number Badge */}
                       <div className="absolute -top-4 -right-4 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
-                        <span className="text-gray-900 font-bold text-xl">
+                        <span className="text-gray-900 poppins-bold text-xl">
                           {process.step}
                         </span>
                       </div>
@@ -409,24 +308,44 @@ const Services = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl font-bold text-gray-100 mb-12 text-center">
+            <h2 className="text-4xl font-bold text-gray-100 mb-4 text-center poppins-bold">
               Why Choose Our Services
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+              Excellence in engineering backed by expertise and innovation
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={index}
-                  className="bg-linear-to-br from-gray-800/80 to-slate-800/80 p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300"
+                  className="relative bg-gray-800 border border-gray-700 rounded-xl p-8 text-center hover:border-gray-500 transition-all duration-300 overflow-hidden group"
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
                 >
-                  <h3 className="text-xl font-bold text-gray-100 mb-3">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-400">{benefit.description}</p>
+                  {/* Animated gradient background on hover */}
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-600/0 to-purple-600/0 group-hover:from-blue-600/10 group-hover:to-purple-600/10 transition-all duration-500"></div>
+
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold text-white mb-3 poppins-semibold">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom accent line */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-blue-500 to-purple-500"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.3, duration: 0.8 }}
+                  ></motion.div>
                 </motion.div>
               ))}
             </div>
@@ -467,14 +386,14 @@ const Services = () => {
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
               >
                 <Link
-                  to="/contact"
+                  to="/contactus"
                   className="group relative bg-white text-blue-600 px-10 py-4 rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-2xl hover:scale-105"
                 >
                   <span className="relative z-10">Request a Quote</span>
                 </Link>
 
                 <Link
-                  to="/contact"
+                  to="/contactus"
                   className="group border-2 border-white text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-white hover:text-blue-600 cursor-pointer"
                 >
                   Contact Our Team

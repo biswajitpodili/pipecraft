@@ -34,6 +34,7 @@ import DeleteConfirmModal from "@/components/dashboard/DeleteConfirmModal";
 import ProjectModal from "@/components/dashboard/ProjectModal";
 import ProjectDetailsModal from "@/components/dashboard/ProjectDetailsModal";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 const Projects = () => {
   const { projects, loading, deleteProject, updateProject, createProject, getProjects } =
@@ -106,7 +107,8 @@ const Projects = () => {
       setIsDeleteModalOpen(false);
       setProjectToDelete(null);
     } catch (error) {
-      alert("Failed to delete project");
+      console.error("Delete failed:", error);
+      toast.error("Failed to delete project");
     } finally {
       setDeleting(false);
     }
@@ -137,6 +139,7 @@ const Projects = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedProject(null);
+
   };
 
   const handleCloseDetailsModal = () => {
@@ -159,6 +162,7 @@ const Projects = () => {
       await createProject(projectData);
     } finally {
       setUpdating(false);
+      
     }
   };
 

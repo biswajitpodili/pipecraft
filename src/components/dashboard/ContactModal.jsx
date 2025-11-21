@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Mail, Phone, Building2, Calendar, User } from "lucide-react";
+import { toast } from "sonner";
 
 const services = [
   "Process Engineering",
@@ -66,7 +67,7 @@ const ContactModal = ({ isOpen, onClose, contact, onUpdate, updating }) => {
       onClose();
     } catch (error) {
       console.error("Failed to update contact:", error);
-      alert("Failed to update contact");
+      toast.error("Failed to update contact");
     }
   };
 

@@ -1,45 +1,12 @@
+
+import useProjectsContext from "@/context/useProjectsContext";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import project1 from "../../assets/1.png";
-import project2 from "../../assets/2.png";
-import project3 from "../../assets/3.png";
-import project4 from "../../assets/4.png";
+
 import { Link } from "react-router";
 
-const projects = [
-  {
-    id: 1,
-    name: "Cooling Tower for TPS IOCL Refinery",
-    client: "Hamon Cooling Systems Pvt. Ltd.",
-    scope:
-      "Generating 3D models, designing piping layouts, and producing piping isometric drawings, piping GA and MTOs.",
-    image: project1,
-  },
-  {
-    id: 2,
-    name: "MP Separator Skid",
-    client: "Kuwait Oil Corporation (KOC).",
-    scope: "3D modelling, E3D Project Setup, Isometrics",
-    image: project2,
-  },
-  {
-    id: 3,
-    name: "PBR IOCL PROJECT (Ongoing)",
-    client: "Hamon Cooling Systems Private Limited",
-    scope:
-      "3D modelling, piping layouts extraction, and extracting piping isometric drawings, Piping GA and Piping MTO",
-    image: project3,
-  },
-  {
-    id: 4,
-    name: "Sludge catcher skid project",
-    client: "Kuwait Oil Corporation (KOC)",
-    scope: "3D modelling, E3D Project Setup, Isometrics",
-    image: project4,
-  },
-];
-
 const Projects = () => {
+  const { projects } = useProjectsContext();
 
   return (
     <div className="bg-gray-50 poppins">
@@ -121,14 +88,14 @@ const Projects = () => {
                         />
                         <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-lg shadow-lg">
                           <span className="text-gray-900 font-bold text-sm">
-                            #{String(project.id).padStart(2, "0")}
+                            #{String(index+1).padStart(2, "0")}
                           </span>
                         </div>
                       </div>
 
                       {/* Project Details */}
                       <div className="p-8">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
+                        <h3 className="text-2xl poppins-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors duration-300">
                           {project.name}
                         </h3>
 
@@ -137,7 +104,7 @@ const Projects = () => {
                           <p className="text-sm font-semibold text-gray-500 mb-1">
                             Client
                           </p>
-                          <p className="text-gray-900 font-medium">
+                          <p className="text-gray-900 poppins-medium">
                             {project.client}
                           </p>
                         </div>
@@ -235,7 +202,7 @@ const Projects = () => {
               life
             </p>
             <Link
-              to="/contact"
+              to="/contactus"
               className="group relative bg-white text-gray-700 px-10 py-4 rounded-xl font-semibold text-lg overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-2xl hover:rounded-xl"
             >
               <span className="relative z-10">Get in Touch</span>
