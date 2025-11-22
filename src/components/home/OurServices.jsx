@@ -2,58 +2,10 @@ import React from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Link } from "react-router";
+import useServicesContext from "@/context/useServicesContext";
 
 const OurServices = () => {
-  const services = [
-    {
-      title: "Process Engineering",
-      items: [
-        "Development of process flow diagrams (PFDs) and piping & instrumentation diagrams (P&IDs)",
-        "Process simulation and optimization",
-        "Equipment sizing and selection",
-      ],
-    },
-    {
-      title: "Piping Engineering",
-      items: [
-        "3D modelling, layout, and isometric generation",
-        "Material take-off (MTO) and stress analysis of critical lines",
-        "Piping GA drawings and final equipment layouts",
-      ],
-    },
-    {
-      title: "Mechanical Engineering",
-      items: [
-        "Design and detailing of static and rotary equipment",
-        "Tank and vessel design and general arrangements",
-        "Equipment layout and interface engineering",
-      ],
-    },
-    {
-      title: "Structural Engineering",
-      items: [
-        "Design and analysis of pipe racks, platforms, and supports",
-        "Structural detailing using STAADPRO and TEKLA",
-        "Integration with plant layout and civil design",
-      ],
-    },
-    {
-      title: "Electrical & Instrumentation",
-      items: [
-        "Design of control systems, cable routing, and panel layouts",
-        "Instrument index, loop diagrams, and field installation details",
-        "Integration with process automation systems",
-      ],
-    },
-    {
-      title: "Fire Fighting System Design",
-      items: [
-        "Fire water network design and hydraulic calculations",
-        "Equipment and piping layout for fire protection systems",
-        "Compliance with national and international safety standards",
-      ],
-    },
-  ];
+  const { services } = useServicesContext();
 
   return (
     <div className="py-20 px-4 md:px-8 lg:px-16 bg-gray-900 min-h-screen">
@@ -72,7 +24,7 @@ const OurServices = () => {
 
         {/* Services Stack */}
         <div className="relative">
-          {services.map((service, index) => {
+          {services?.map((service, index) => {
             return (
               <motion.div
                 key={index}
@@ -111,7 +63,7 @@ const OurServices = () => {
                     </h3>
 
                     <div className="space-y-4">
-                      {service.items.map((item, itemIndex) => (
+                      {service?.features?.map((item, itemIndex) => (
                         <div key={itemIndex} className="flex items-start gap-4">
                           <div
                             className={`w-2 h-2 rounded-full mt-2 shrink-0 ${

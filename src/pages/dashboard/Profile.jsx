@@ -173,6 +173,9 @@ const Profile = () => {
       <div className="grid gap-4 md:grid-cols-3">
         {/* Profile Card */}
         <Card className="md:col-span-1">
+          <CardHeader>
+            <CardTitle className="text-base poppins-semibold"></CardTitle>
+          </CardHeader>
           <CardContent className="flex flex-col items-center space-y-4">
             <div className="relative">
               <Avatar className="h-32 w-32 border-4 border-muted">
