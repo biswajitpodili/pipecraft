@@ -124,7 +124,7 @@ const Applications = () => {
   return (
     <div className="flex-1 space-y-4 p-6 pt-4 poppins">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold tracking-tight poppins-bold">
             Applications

@@ -75,7 +75,7 @@ const Login = () => {
         {/* Header */}
         <motion.div className="text-center" variants={itemVariants}>
           <motion.h1
-            className="text-4xl font-bold text-gray-900 mb-2"
+            className="text-4xl poppins-bold text-gray-900 mb-2"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
@@ -160,7 +160,7 @@ const Login = () => {
           </form>
 
           {/* Additional Links */}
-          <motion.div
+          {/* <motion.div
             className="mt-6 text-center space-y-2"
             variants={itemVariants}
           >
@@ -179,7 +179,7 @@ const Login = () => {
                 Contact us
               </a>
             </div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         {/* Footer */}
